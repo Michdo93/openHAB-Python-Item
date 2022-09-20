@@ -169,9 +169,8 @@ class Item(object):
 
 class ColorItem(Item):
     def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
-
+        super().__init__(type, name, state, tags, groups)
+        
     def setState(state):
         super().setState(state)
 
@@ -183,8 +182,7 @@ class ColorItem(Item):
         
 class ContactItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state:str):
         super().setState(state)
@@ -197,8 +195,7 @@ class ContactItem(Item):
         
 class DateTimeItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state:str):
         super().setState(state)
@@ -211,8 +208,7 @@ class DateTimeItem(Item):
         
 class DimmerItem(Item):
     def __init__(self, type:str = None, name:str = None, state:int = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state:int):
         super().setState(state)
@@ -225,8 +221,7 @@ class DimmerItem(Item):
         
 class GroupItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -239,8 +234,7 @@ class GroupItem(Item):
         
 class ImageItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state:str):
         super().setState(state)
@@ -253,8 +247,7 @@ class ImageItem(Item):
         
 class LocationItem(Item):
     def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -267,8 +260,7 @@ class LocationItem(Item):
         
 class NumberItem(Item):
     def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -281,8 +273,7 @@ class NumberItem(Item):
         
 class PlayerItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -295,8 +286,7 @@ class PlayerItem(Item):
         
 class RollershutterItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -309,8 +299,7 @@ class RollershutterItem(Item):
         
 class StringItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -323,8 +312,7 @@ class StringItem(Item):
 
 class SwitchItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, tags, groups)
-        self.setState(state)
+        super().__init__(type, name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
