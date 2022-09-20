@@ -1,3 +1,10 @@
+from datetime import datetime
+import base64
+import io
+import cv2
+from imageio.v2 import imread
+import numpy as np
+
 class Item(object):
     def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
         self.__itemTypes = ["Color", "Contact", "DateTime", "Dimmer", "Group", "Image", "Location", "Number", "Player", "Rollershutter", "String", "Switch"]
@@ -36,7 +43,6 @@ class Item(object):
             bool = self.__checkSwitchValue(value)
 
         return bool
-
 
     def __checkColorValue(self, value):
         if isinstance(value, str):
@@ -177,6 +183,42 @@ class ColorItem(Item):
     def getState():
         return super().getState()
     
+    def getHSB():
+        return self.getState().split(",")
+    
+    def getHue():
+        return self.getState().split(",")[0]
+    
+    def getSaturation():
+        return self.getState().split(",")[1]
+    
+    def getBrightness():
+        return self.getState().split(",")[2]
+
+    def setHSB(hsb:list):
+        self.setState(hsb[0] + "," + hsb[1] + "," + hsb[2])
+        
+    def setHue(hue:float):
+        hsb = self.getHSB()
+        
+        if (0 <= hue <= 360.0):
+            hsb[0] = hue
+            self.setHSB(hsb)
+        
+    def setSaturation(saturation:float):
+        hsb = self.getHSB()
+        
+        if (0 <= saturation <= 360.0):
+            hsb[1] = saturation
+            self.setHSB(hsb)
+        
+    def setBrightness(brightness:float):
+        hsb = self.getHSB()
+        
+        if (0 <= brightness <= 360.0):
+            hsb[2] = brightness
+            self.setHSB(hsb)
+    
     def __checkColorValue(self, value):
         return super().__checkColorValue(value)
         
@@ -189,12 +231,18 @@ class ContactItem(Item):
 
     def getState():
         return super().getState()
+    
+    def toggleState():
+        if self.getState() == "OPEN"
+            self.setState("CLOSED")
+        else:
+            self.setState("OPEN")
         
     def __checkContactValue(self, value):
         return super().__checkContactValue(value)
         
 class DateTimeItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
+    def __init__(self, type:str = None, name:str = None, state:datetime = None, tags:list = None, groups:list = None):
         super().__init__(type, name, state, tags, groups)
 
     def setState(state:str):
@@ -202,6 +250,12 @@ class DateTimeItem(Item):
 
     def getState():
         return super().getState()
+    
+    def setDatetime(state:datetime):
+        super().setState(state.strftime('%Y-%m-%dT%H:%M:%SZ'))
+    
+    def getDatetime():
+        return datetime.strptime(str(super().getState()), '%Y-%m-%dT%H:%M:%S.%f%z')
         
     def __checkDateTimeValue(self, value):
         return super().__checkDateTimeValue(value)
@@ -214,7 +268,7 @@ class DimmerItem(Item):
         super().setState(state)
 
     def getState():
-        return super().getState()
+        return int(super().getState())
         
     def __checkDimmerValue(self, value):
         return super().__checkDimmerValue(value)
@@ -222,9 +276,6 @@ class DimmerItem(Item):
 class GroupItem(Item):
     def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
         super().__init__(type, name, state, tags, groups)
-
-    def setState(state):
-        super().setState(state)
 
     def getState():
         return super().getState()
@@ -241,6 +292,19 @@ class ImageItem(Item):
 
     def getState():
         return super().getState()
+    
+    def getNumpyImage():
+        return imread(io.BytesIO(base64.b64decode(self.getState())))
+    
+    def getCV2Image():
+        return cv2.cvtColor(self.getNumpyImage(), cv2.COLOR_RGB2BGR)
+    
+    def setNumpyImage(state):
+        self.setState(state.tobytes())
+        
+    def setCV2Image(state):
+        retval, buffer = cv2.imencode('.jpg', state)
+        self.setNumpyImage(buffer)
         
     def __checkImageValue(self, value):
         return super().__checkImageValue(value)
@@ -254,19 +318,58 @@ class LocationItem(Item):
 
     def getState():
         return super().getState()
+    
+    def getGPS():
+        return self.getState().split(",")
+    
+    def getLongitude():
+        return float(self.getState().split(",")[0])
+    
+    def getLatitude():
+        return float(self.getState().split(",")[1])
+    
+    def getAltitude():
+        return float(self.getState().split(",")[2])
+    
+    def setGPS(gps:list)
+        self.setState(gps[0] + "," + gps[1] + "," + gps[2])
         
+    def setLongitude(longitude:float):
+        gps = self.getGPS()
+        
+        gps[0] = longitude
+        self.setGPS(GPS)
+        
+    def setLatitude(latitude:float):
+        gps = self.getGPS()
+        
+        gps[1] = latitude
+        self.setGPS(GPS)
+        
+    def setAltitude(altitude:float):
+        gps = self.getGPS()
+
+        gps[2] = altitude
+        self.setGPS(GPS)
+            
     def __checkLocationValue(self, value):
         return super().__checkLocationValue(value)
         
 class NumberItem(Item):
     def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+        super().__init__(type, name, self.__numberValue(state), tags, groups)
 
     def setState(state):
-        super().setState(state)
+        super().setState(self.__numberValue(state))
 
     def getState():
-        return super().getState()
+        return self.__numberValue(super().getState())
+            
+    def __numberValue(self, value):
+        if "." in value:
+            return float(value)
+        else:
+            return int(value)
         
     def __checkNumberValue(self, value):
         return super().__checkNumberValue(value)
@@ -319,6 +422,12 @@ class SwitchItem(Item):
 
     def getState():
         return super().getState()
+    
+    def toggleState():
+        if self.getState() == "ON"
+            self.setState("OFF")
+        else:
+            self.setState("ON")
         
     def __checkSwitchValue(self, value):
         return super().__checkSwitchValue(value)
