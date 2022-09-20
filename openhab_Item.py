@@ -1,10 +1,10 @@
 class Item(object):
     def __init__(self, type:str = None, name:str = None, tags:list = None, groups:list = None):
+        self.__itemTypes = ["Color", "Contact", "DateTime", "Dimmer", "Group", "Image", "Location", "Number", "Player", "Rollershutter", "String", "Switch"]
         self.setType(type)
         self.setName(name)
         self.setTags(tags)
         self.setGroups(groups)
-        self.__itemTypes = ["Color", "Contact", "DateTime", "Dimmer", "Group", "Image", "Location", "Number", "Player", "Rollershutter", "String", "Switch"]
         
     def __checkItemType(self, type:str):
         if type in self.__itemTypes:
@@ -24,7 +24,8 @@ class Item(object):
         return self.groups
     
     def setType(self, type:str):
-        self.type = self.__checkItemType(type)
+        if self.__checkItemType(type):
+            self.type = type
         
     def setName(self, name:str):
         self.name = name
