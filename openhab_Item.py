@@ -307,7 +307,16 @@ class ImageItem(Item):
         self.setNumpyImage(buffer)
         
     def validate(self, value):
-        return super().__checkImageValue(value)
+        if isinstance(value, numpy.ndarray):
+            retval, buffer = cv2.imencode('.jpg', value)
+            if isinstance(buffer, bytes):
+                value = buffer
+            value = value.tobytes()
+
+        if isinstance(value,str):
+            return super().__checkImageValue(value)
+        else:
+            return False
         
 class LocationItem(Item):
     def __init__(self, name:str = None, state = None, tags:list = None, groups:list = None):
