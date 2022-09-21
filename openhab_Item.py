@@ -174,8 +174,8 @@ class Item(object):
         self.groups = groups
 
 class ColorItem(Item):
-    def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state = None, tags:list = None, groups:list = None):
+        super().__init__("Color", name, state, tags, groups)
         
     def setState(state):
         super().setState(state)
@@ -219,12 +219,12 @@ class ColorItem(Item):
             hsb[2] = brightness
             self.setHSB(hsb)
     
-    def __checkColorValue(self, value):
+    def validate(self, value):
         return super().__checkColorValue(value)
         
 class ContactItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:str = None, tags:list = None, groups:list = None):
+        super().__init__("Contact", name, state, tags, groups)
 
     def setState(state:str):
         super().setState(state)
@@ -238,12 +238,12 @@ class ContactItem(Item):
         else:
             self.setState("OPEN")
         
-    def __checkContactValue(self, value):
+    def validate(self, value):
         return super().__checkContactValue(value)
         
 class DateTimeItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:datetime = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:datetime = None, tags:list = None, groups:list = None):
+        super().__init__("DateTime", name, state, tags, groups)
 
     def setState(state:str):
         super().setState(state)
@@ -257,12 +257,12 @@ class DateTimeItem(Item):
     def getDatetime():
         return datetime.strptime(str(super().getState()), '%Y-%m-%dT%H:%M:%S.%f%z')
         
-    def __checkDateTimeValue(self, value):
+    def validate(self, value):
         return super().__checkDateTimeValue(value)
         
 class DimmerItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:int = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:int = None, tags:list = None, groups:list = None):
+        super().__init__("Dimmer", name, state, tags, groups)
 
     def setState(state:int):
         super().setState(state)
@@ -270,22 +270,22 @@ class DimmerItem(Item):
     def getState():
         return int(super().getState())
         
-    def __checkDimmerValue(self, value):
+    def validate(self, value):
         return super().__checkDimmerValue(value)
         
 class GroupItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:str = None, tags:list = None, groups:list = None):
+        super().__init__("Group", name, state, tags, groups)
 
     def getState():
         return super().getState()
         
-    def __checkGroupValue(self, value):
+    def validate(self, value):
         return super().__checkGroupValue(value)
         
 class ImageItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:str = None, tags:list = None, groups:list = None):
+        super().__init__("Image", name, state, tags, groups)
 
     def setState(state:str):
         super().setState(state)
@@ -306,12 +306,12 @@ class ImageItem(Item):
         retval, buffer = cv2.imencode('.jpg', state)
         self.setNumpyImage(buffer)
         
-    def __checkImageValue(self, value):
+    def validate(self, value):
         return super().__checkImageValue(value)
         
 class LocationItem(Item):
-    def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state = None, tags:list = None, groups:list = None):
+        super().__init__("Location", name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -352,12 +352,12 @@ class LocationItem(Item):
         gps[2] = altitude
         self.setGPS(GPS)
             
-    def __checkLocationValue(self, value):
+    def validate(self, value):
         return super().__checkLocationValue(value)
         
 class NumberItem(Item):
-    def __init__(self, type:str = None, name:str = None, state = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, self.__numberValue(state), tags, groups)
+    def __init__(self, name:str = None, state = None, tags:list = None, groups:list = None):
+        super().__init__("Number", name, self.__numberValue(state), tags, groups)
 
     def setState(state):
         super().setState(self.__numberValue(state))
@@ -371,12 +371,12 @@ class NumberItem(Item):
         else:
             return int(value)
         
-    def __checkNumberValue(self, value):
+    def validate(self, value):
         return super().__checkNumberValue(value)
         
 class PlayerItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:str = None, tags:list = None, groups:list = None):
+        super().__init__("Player", name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -384,12 +384,12 @@ class PlayerItem(Item):
     def getState():
         return super().getState()
         
-    def __checkPlayerValue(self, value):
+    def validate(self, value):
         return super().__checkPlayerValue(value)
         
 class RollershutterItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:str = None, tags:list = None, groups:list = None):
+        super().__init__("Rollershutter", name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -397,12 +397,12 @@ class RollershutterItem(Item):
     def getState():
         return super().getState()
         
-    def __checkRollershutterValue(self, value):
+    def validate(self, value):
         return super().__checkRollershutterValue(value)
         
 class StringItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:str = None, tags:list = None, groups:list = None):
+        super().__init__("String", name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -410,12 +410,12 @@ class StringItem(Item):
     def getState():
         return super().getState()
         
-    def __checkStringValue(self, value):
+    def validate(self, value):
         return super().__checkStringValue(value)
 
 class SwitchItem(Item):
-    def __init__(self, type:str = None, name:str = None, state:str = None, tags:list = None, groups:list = None):
-        super().__init__(type, name, state, tags, groups)
+    def __init__(self, name:str = None, state:str = None, tags:list = None, groups:list = None):
+        super().__init__("Switch", name, state, tags, groups)
 
     def setState(state):
         super().setState(state)
@@ -429,5 +429,5 @@ class SwitchItem(Item):
         else:
             self.setState("ON")
         
-    def __checkSwitchValue(self, value):
+    def validate(self, value):
         return super().__checkSwitchValue(value)
