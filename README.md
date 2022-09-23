@@ -92,7 +92,7 @@ number = NumberItem("my_number", 3.14)
 number2 = NumberItem("my_number2", 21)
 ```
 
-### Get state
+### Get State
 
 From an `Item` object you can logically also query what the `state` is:
 
@@ -106,7 +106,7 @@ number_state = number.getState()
 print(number_state)
 ```
 
-### Set tag
+### Set Tag(s)
 
 To each `Item` you can set a [tag](https://www.openhab.org/docs/configuration/items.html#tags) or multiple tags. Therefore you need a `list` object. As example the `tag` `Switchable`:
 
@@ -116,7 +116,7 @@ switch2 = SwitchItem(name="my_switch2", state="ON", tags=["Switchable"])
 switch3 = SwitchItem(name="my_switch3")
 ```
 
-### Set group
+### Set Group(s)
 
 An `Item` can be subordinated to one or more `Group`'s. Therefore you will also need a `list` object:
 
